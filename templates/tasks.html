@@ -1,0 +1,10 @@
+<ul id="tasklist">
+    {% for task in tasks %}
+    <li >{{ task }}
+    <input
+           hx-delete="/tasks/delete"
+           hx-target="#tasklist"
+           hx-vals={"task":"{{ task }}"}
+           type="button" value="☢"></li>
+    {% endfor %}
+</ul>
