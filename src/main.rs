@@ -8,7 +8,6 @@ use axum::{
 use lazy_static::lazy_static;
 use log::{info, trace, warn};
 use std::sync::Mutex;
-use tokio::io::AsyncReadExt;
 
 lazy_static! {
     static ref TASKS: Mutex<Vec<String>> = Mutex::new(vec![]);
