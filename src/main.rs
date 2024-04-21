@@ -4,17 +4,13 @@ use askama::Template;
 use axum::{
     extract::{Form},
     response::Html,
-    routing::{delete, get, post},
-    Router,
 };
-use lazy_static::lazy_static;
 use log::{info, trace, warn};
 use std::sync::Mutex;
 use crate::router::get_router;
 
-lazy_static! {
-    static ref TASKS: Mutex<Vec<String>> = Mutex::new(vec![]);
-}
+static TASKS: Mutex<Vec<String>> = Mutex::new(vec![]);
+
 
 #[derive(Template)]
 #[template(path = "index.html", ext = "html")]
