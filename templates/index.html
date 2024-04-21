@@ -20,12 +20,5 @@
         <input type="submit" value="Add Task"/>
 
     </form>
-    <div>
-        <ul id="todolist">
-            {% for task in tasks %}
-            <li>{{ task.name }} {{ task.id }}</li>
-            {{task.description}}
-            {% endfor %}
-        </ul>
-    </div>
+    {% include "tasks.html" %}
 </div>

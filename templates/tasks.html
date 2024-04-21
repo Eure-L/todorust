@@ -1,11 +1,7 @@
-<ul id="tasklist">
+<ul id="todolist">
     {% for task in tasks %}
-    <li >
-        <h2>{{ task.name }}</h2> {{task.description}}
-    <input
-           hx-delete="/tasks/delete"
-           hx-target="#tasklist"
-           hx-vals={"id":"{{ task.id }}"}
-           type="button" value="☢"></li>
+
+    {% include "task.html" %}
+
     {% endfor %}
 </ul>

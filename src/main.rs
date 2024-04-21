@@ -20,6 +20,12 @@ struct TasksTemplate<'a> {
     tasks: &'a Vec<Task>,
 }
 
+#[derive(Template)]
+#[template(path = "task.html", ext = "html")]
+struct TaskTemplate<'a> {
+    task: &'a Task,
+}
+
 #[tokio::main]
 async fn main() {
     env_logger::init();

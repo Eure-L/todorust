@@ -1,11 +1,12 @@
 use crate::{IndexTemplate, NewTask, Task, TaskID, TasksTemplate};
 use askama::Template;
-use axum::response::Html;
+use axum::response::{Html, IntoResponse};
 use axum::Form;
 use lazy_static::lazy_static;
 use log::{info, trace, warn};
 use std::collections::HashMap;
 use std::sync::Mutex;
+use axum::http::StatusCode;
 use tokio::net::unix::uid_t;
 use uuid::Uuid;
 
@@ -13,15 +14,17 @@ lazy_static! {
     static ref TASKS: Mutex<HashMap<uid_t, Task>> = Mutex::new(HashMap::new());
 }
 
-pub(crate) async fn index() -> Html<String> {
+pub async fn index() -> Html<String> {
     trace!("index");
 
     let tasks = get_pending_tasks(&TASKS);
     let template = IndexTemplate { tasks: &tasks };
+    trace!("index");
     Html(template.render().unwrap())
+
 }
 
-pub(crate) async fn add_task_handle(Form(input): Form<NewTask>) -> Html<String> {
+pub async fn add_task_handle(Form(input): Form<NewTask>) -> Html<String> {
     trace!("add_task {:?}", input);
 
     // Builds the new task with User's provided info
@@ -49,22 +52,20 @@ pub(crate) async fn add_task_handle(Form(input): Form<NewTask>) -> Html<String> 
     Html(template.render().unwrap())
 }
 
-pub(crate) async fn delete_task_handle(Form(task): Form<TaskID>) -> Html<String> {
+pub async fn delete_task_handle(Form(task): Form<TaskID>) ->  impl IntoResponse  {
     trace!("delete_task {:?}", task);
 
-    let _ = match TASKS.lock().unwrap().remove(&task.id) {
+    match TASKS.lock().unwrap().remove(&task.id) {
         //(&task.id) {
         None => {
-            warn!("No task found: {:?}", task.id)
+            warn!("No task found: {:?}", task.id);
+            (StatusCode::NOT_FOUND, "Task not found").into_response()
         }
         Some(a) => {
-            info!("Task deleted: {:?}", a)
+            info!("Task deleted: {:?}", a);
+            (StatusCode::OK).into_response()
         }
-    };
-
-    let tasks = get_pending_tasks(&TASKS);
-    let template = TasksTemplate { tasks: &tasks };
-    Html(template.render().unwrap())
+    }
 }
 
 pub fn get_pending_tasks(tasks_mutex: &Mutex<HashMap<uid_t, Task>>) -> Vec<Task> {
