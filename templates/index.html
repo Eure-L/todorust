@@ -15,15 +15,16 @@
           hx-target="#todolist"
           hx-swap-oob="beforeend transition:true"
     >
-        <input type="text" name="task"/>
-        <input type="submit" value="Add Task"/>
+        <input type="text" name="name"/>
+        <input type="text" name="description"/>
         <input type="submit" value="Add Task"/>
 
     </form>
     <div>
         <ul id="todolist">
             {% for task in tasks %}
-            <li>{{ task }}</li>
+            <li>{{ task.name }} {{ task.id }}</li>
+            {{task.description}}
             {% endfor %}
         </ul>
     </div>

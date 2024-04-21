@@ -14,4 +14,4 @@ lazy_static = "1.4.0"
 serde = { version = "1.0.198", features = ["derive"] }
 env_logger = "0.11.3"
 log = "0.4.21"
-tracing = "0.1.40"
+uuid = { version = "1.8.0", features = ["v4"] }
