@@ -1,3 +1,5 @@
+mod router;
+
 use askama::Template;
 use axum::{
     extract::{Form},
@@ -8,6 +10,7 @@ use axum::{
 use lazy_static::lazy_static;
 use log::{info, trace, warn};
 use std::sync::Mutex;
+use crate::router::get_router;
 
 lazy_static! {
     static ref TASKS: Mutex<Vec<String>> = Mutex::new(vec![]);
@@ -31,10 +34,7 @@ async fn main() {
     info!("Starting Server");
 
     // build our application with a route
-    let app = Router::new()
-        .route("/", get(index))
-        .route("/tasks/add", post(add_task_handle))
-        .route("/tasks/delete", delete(delete_task_handle));
+    let app = get_router();
 
     // run it with hyper on localhost:3000
     axum_server::Server::bind("127.0.0.1:3000".parse().unwrap())
