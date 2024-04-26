@@ -1,0 +1,11 @@
+<input
+        hx-put="/tasks/status"
+        hx-target="#completed-list"
+        hx-swap="beforeend"
+        hx-trigger="click"
+        hx-on::after-request="this.closest('tr').remove();"
+        hx-vals={"id":"{{ task.id }}","status":"Completed"}
+        type="button"
+        value="✅"
+        id="complete-task-btn"
+>

@@ -12,8 +12,8 @@
 <div>
     <h1>Todo List</h1>
     <form hx-post="/tasks/add"
-          hx-target="#todolist"
-          hx-swap-oob="beforeend transition:true"
+          hx-target="#pending-list"
+          hx-swap="beforeend transition:true"
     >
         <input type="text" name="name"/>
         <input type="text" name="description"/>
@@ -22,3 +22,7 @@
     </form>
     {% include "tasks.html" %}
 </div>
+
+
+
+

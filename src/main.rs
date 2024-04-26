@@ -3,10 +3,13 @@ mod routes;
 mod task;
 
 use crate::routes::get_routes;
-use crate::task::Task;
+use crate::task::{Task, TaskStatus};
 use askama::Template;
 use log::{info};
+use serde::__private::de::IdentifierDeserializer;
 use tokio::net::unix::uid_t;
+
+
 
 #[derive(Template)]
 #[template(path = "index.html", ext = "html")]
@@ -29,6 +32,7 @@ struct TaskTemplate<'a> {
 #[tokio::main]
 async fn main() {
     env_logger::init();
+
     info!("Starting Server");
 
     // build our application with a route
@@ -42,12 +46,18 @@ async fn main() {
 }
 
 #[derive(serde::Deserialize, Debug)]
-struct TaskID {
+struct TaskIdForm {
     id: uid_t,
 }
 
 #[derive(serde::Deserialize, Debug)]
-struct NewTask {
+struct TaskStatusForm {
+    id: uid_t,
+    status: TaskStatus
+}
+
+#[derive(serde::Deserialize, Debug)]
+struct NewTaskForm {
     name: String,
     description: String,
 }

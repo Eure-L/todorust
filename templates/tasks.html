@@ -1,7 +1,40 @@
-<ul id="todolist">
-    {% for task in tasks %}
+<div id="todolist">
 
-    {% include "task.html" %}
+    <table><caption>Pending Tasks</caption>
+        <thead>
+        <tr>
+            <th>Task Name</th>
+            <th colspan="100">Description</th>
+        </tr>
+        </thead>
+        <tbody id="pending-list">
 
-    {% endfor %}
-</ul>
+        {% for task in tasks %}
+        {% if task.status == TaskStatus::Pending %}
+        {% include "task.html" %}
+        {% endif %}
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    <table><caption>Completed Tasks</caption>
+        <thead>
+        <tr>
+            <th>Task Name</th>
+            <th colspan="100">Description</th>
+        </tr>
+        </thead>
+        <tbody id="completed-list">
+
+        {% for task in tasks %}
+        {{task.status}}
+        {% if task.status == TaskStatus::Completed %}
+        {% include "task.html" %}
+        {% endif %}
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+</div>

@@ -1,9 +1,13 @@
-<li class="task">
-    <h2>{{ task.name }}</h2>{{task.description}}
-    <input
-            hx-delete="/tasks/delete"
-            hx-target="closest .task"
-            hx-swap="delete"
-            hx-vals={"id":"{{ task.id }}"}
-    type="button" value="☢">
-</li>
+
+<tr class="task" >
+    <td>{{ task.name }}</td>
+    <td>{{ task.description }}</td>
+    <td>
+        {% include "buttons/delete-task_btn.html" %}
+        {% if task.status == TaskStatus::Pending %}
+        {% include "buttons/complete-task_btn.html" %}
+        {% else if task.status == TaskStatus::Completed %}
+        {% include "buttons/pend-task_btn.html" %}
+        {% endif %}
+    </td>
+</tr>

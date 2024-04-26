@@ -1,0 +1,8 @@
+<input
+        hx-put="/tasks/status"
+        hx-target="#pending-list"
+        hx-swap="beforeend"
+        hx-vals={"id":"{{ task.id }}","status":"Pending"}
+        hx-on::after-request="this.closest('tr').remove();"
+        type="button" value="⏰"
+>
