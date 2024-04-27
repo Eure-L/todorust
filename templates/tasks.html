@@ -28,7 +28,6 @@
         <tbody id="completed-list">
 
         {% for task in tasks %}
-        {{task.status}}
         {% if task.status == TaskStatus::Completed %}
         {% include "task.html" %}
         {% endif %}

@@ -1,4 +1,4 @@
-use crate::{IndexTemplate, NewTaskForm, Task, TaskIdForm, TaskStatusForm, TasksTemplate, TaskTemplate};
+use crate::{IndexTemplate, NewTaskForm, Task, TaskIdForm, TaskStatusForm, TaskTemplate};
 use askama::Template;
 use axum::response::{Html, IntoResponse};
 use axum::Form;
@@ -10,18 +10,17 @@ use axum::http::StatusCode;
 use tokio::net::unix::uid_t;
 use uuid::Uuid;
 use crate::task::TaskStatus;
-use crate::task::TaskStatus::{Completed, Pending};
 
 lazy_static! {
     static ref TASKS: Mutex<HashMap<uid_t, Task>> = Mutex::new(HashMap::new());
 }
 
-pub async fn index() -> Html<String> {
+pub async fn index() -> impl IntoResponse {
     trace!("index");
 
     let tasks = get_tasks(&TASKS);
     let template = IndexTemplate { tasks: &tasks};
-    Html(template.render().unwrap())
+    Html(template.render().unwrap()).into_response()
 
 }
 
