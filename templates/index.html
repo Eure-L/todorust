@@ -7,10 +7,11 @@
     <script src="https://unpkg.com/htmx.org@1.9.6"
             integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni"
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
 <div>
-    <h1>Todo List</h1>
+    <h1 class="text-3xl font-bold text-center mt-8">Todo List</h1>
     <form hx-post="/tasks/add"
           hx-target="#pending-list"
           hx-swap="beforeend transition:true"

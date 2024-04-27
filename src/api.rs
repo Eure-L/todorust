@@ -1,15 +1,15 @@
+use crate::task::TaskStatus;
 use crate::{IndexTemplate, NewTaskForm, Task, TaskIdForm, TaskStatusForm, TaskTemplate};
 use askama::Template;
+use axum::http::StatusCode;
 use axum::response::{Html, IntoResponse};
 use axum::Form;
 use lazy_static::lazy_static;
 use log::{debug, info, trace, warn};
 use std::collections::HashMap;
 use std::sync::Mutex;
-use axum::http::StatusCode;
 use tokio::net::unix::uid_t;
 use uuid::Uuid;
-use crate::task::TaskStatus;
 
 lazy_static! {
     static ref TASKS: Mutex<HashMap<uid_t, Task>> = Mutex::new(HashMap::new());
@@ -19,12 +19,11 @@ pub async fn index() -> impl IntoResponse {
     trace!("index");
 
     let tasks = get_tasks(&TASKS);
-    let template = IndexTemplate { tasks: &tasks};
+    let template = IndexTemplate { tasks: &tasks };
     Html(template.render().unwrap()).into_response()
-
 }
 
-pub async fn add_task_handle(Form(input): Form<NewTaskForm>) ->  impl IntoResponse {
+pub async fn add_task_handle(Form(input): Form<NewTaskForm>) -> impl IntoResponse {
     trace!("add_task {:?}", input);
 
     // Builds the new task with User's provided info
@@ -41,7 +40,7 @@ pub async fn add_task_handle(Form(input): Form<NewTaskForm>) ->  impl IntoRespon
     match TASKS.lock().unwrap().insert(new_id, new_task.clone()) {
         None => {
             info!("Task added {:?}", new_task);
-            let template = TaskTemplate { task: &new_task};
+            let template = TaskTemplate { task: &new_task };
             Html(template.render().unwrap()).into_response()
         }
         Some(task) => {
@@ -49,11 +48,9 @@ pub async fn add_task_handle(Form(input): Form<NewTaskForm>) ->  impl IntoRespon
             (StatusCode::CONFLICT, "Task exists already").into_response()
         }
     }
-
-
 }
 
-pub async fn delete_task_handle(Form(task): Form<TaskIdForm>) ->  impl IntoResponse  {
+pub async fn delete_task_handle(Form(task): Form<TaskIdForm>) -> impl IntoResponse {
     trace!("delete_task {:?}", task);
 
     match TASKS.lock().unwrap().remove(&task.id) {
@@ -68,10 +65,10 @@ pub async fn delete_task_handle(Form(task): Form<TaskIdForm>) ->  impl IntoRespo
     }
 }
 
-pub async fn set_task_status_handle(Form(task): Form<TaskStatusForm>) -> impl IntoResponse   {
+pub async fn set_task_status_handle(Form(task): Form<TaskStatusForm>) -> impl IntoResponse {
     trace!("set_task_status {:?}", task);
 
-    for (_, task) in TASKS.lock().unwrap().iter(){
+    for (_, task) in TASKS.lock().unwrap().iter() {
         debug!("{:?}", task)
     }
 
@@ -87,12 +84,12 @@ pub async fn set_task_status_handle(Form(task): Form<TaskStatusForm>) -> impl In
             Html(template.render().unwrap()).into_response()
         }
     }
-
-
-
 }
 
-pub fn get_tasks_by_status(tasks_mutex: &Mutex<HashMap<uid_t, Task>>, status: TaskStatus) -> Vec<Task> {
+pub fn get_tasks_by_status(
+    tasks_mutex: &Mutex<HashMap<uid_t, Task>>,
+    status: TaskStatus,
+) -> Vec<Task> {
     let tasks = tasks_mutex
         .lock()
         .unwrap()

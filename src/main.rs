@@ -5,10 +5,8 @@ mod task;
 use crate::routes::get_routes;
 use crate::task::{Task, TaskStatus};
 use askama::Template;
-use log::{info};
+use log::info;
 use tokio::net::unix::uid_t;
-
-
 
 #[derive(Template)]
 #[template(path = "index.html", ext = "html")]
@@ -52,7 +50,7 @@ struct TaskIdForm {
 #[derive(serde::Deserialize, Debug)]
 struct TaskStatusForm {
     id: uid_t,
-    status: TaskStatus
+    status: TaskStatus,
 }
 
 #[derive(serde::Deserialize, Debug)]

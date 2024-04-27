@@ -1,14 +1,13 @@
-use std::fmt::{Display, Formatter};
 use serde::Deserialize;
+use std::fmt::{Display, Formatter};
 use tokio::net::unix::uid_t;
-
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 pub enum TaskStatus {
     Pending,
     Started,
     Completed,
-    Abandoned
+    Abandoned,
 }
 
 impl Display for TaskStatus {
@@ -27,7 +26,6 @@ impl Display for TaskStatus {
                 write!(f, "Abandoned")
             }
         }
-
     }
 }
 
@@ -36,7 +34,7 @@ pub struct Task {
     pub name: String,
     pub id: uid_t,
     pub description: String,
-    pub status: TaskStatus
+    pub status: TaskStatus,
 }
 
 impl Display for Task {
@@ -44,4 +42,3 @@ impl Display for Task {
         write!(f, "{} (id: {})", self.name, self.id)
     }
 }
-
