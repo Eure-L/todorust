@@ -1,39 +1,53 @@
-<div id="todolist">
+<div id="todolist"
+    class="
+    justify-center
+    flex flex-row
+    max-w-screen-xl
+    ml-auto
+    mr-auto
+    "
+>
+    <div class="justify-start flex flex-row justify-normal">
+        <table
+        class="
+        "
+        ><caption>Pending Tasks</caption>
+            <thead>
+            <tr>
+                <th></th>
+                <th colspan="100"></th>
+            </tr>
+            </thead>
+            <tbody id="pending-list">
 
-    <table><caption>Pending Tasks</caption>
-        <thead>
-        <tr>
-            <th>Task Name</th>
-            <th colspan="100">Description</th>
-        </tr>
-        </thead>
-        <tbody id="pending-list">
+            {% for task in tasks %}
+            {% if task.status == TaskStatus::Pending %}
+            {% include "task.html" %}
+            {% endif %}
+            {% endfor %}
 
-        {% for task in tasks %}
-        {% if task.status == TaskStatus::Pending %}
-        {% include "task.html" %}
-        {% endif %}
-        {% endfor %}
+            </tbody>
+        </table>
 
-        </tbody>
-    </table>
+        <table
+        class="
+        "
+        ><caption>Completed Tasks</caption>
+            <thead>
+            <tr>
+                <th></th>
+                <th colspan="100"></th>
+            </tr>
+            </thead>
+            <tbody id="completed-list">
 
-    <table><caption>Completed Tasks</caption>
-        <thead>
-        <tr>
-            <th>Task Name</th>
-            <th colspan="100">Description</th>
-        </tr>
-        </thead>
-        <tbody id="completed-list">
+            {% for task in tasks %}
+            {% if task.status == TaskStatus::Completed %}
+            {% include "task.html" %}
+            {% endif %}
+            {% endfor %}
 
-        {% for task in tasks %}
-        {% if task.status == TaskStatus::Completed %}
-        {% include "task.html" %}
-        {% endif %}
-        {% endfor %}
-
-        </tbody>
-    </table>
-
+            </tbody>
+        </table>
+    </div>
 </div>

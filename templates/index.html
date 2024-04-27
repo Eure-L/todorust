@@ -1,24 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="/apos-frontend/default/apos-bundle.css" rel="stylesheet"/>
     <title>My Amazing Todo-app </title>
+    <link rel="stylesheet" href="/static/css/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://unpkg.com/htmx.org@1.9.6"
             integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/static/css/styles.css">
+
 </head>
 
-<div>
-    <h1 class="text-3xl font-bold text-center mt-8">Todo List</h1>
-    <form hx-post="/tasks/add"
-          hx-target="#pending-list"
-          hx-swap="beforeend transition:true"
+<div class="bg-fourthiary items-center ">
+    <h1 class="bg-primary text-white text-7xl 
+    text-center 
+    max-w-screen-xl
+    bg-origin-padding 
+    ml-auto
+    mr-auto
+    py-8
+    " >Todo List</h1>
+
+    <form 
+        class="
+        max-w-screen-md
+        max-h-screen
+        border-1
+        border-black
+        mt-4
+        ml-auto
+        mr-auto
+        py-8
+        px-2
+        bg-secondary
+        border-x-inherit
+        flex flex-col
+        text-center
+        "
+        hx-post="/tasks/add"
+        hx-target="#pending-list"
+        hx-swap="beforeend transition:true"
     >
         <input type="text" name="name"/>
         <input type="text" name="description"/>
-        <input type="submit" value="Add Task"/>
+        <input 
+        class="
+        text-white
+        "
+        type="submit" value="Add Task"/>
 
     </form>
     {% include "tasks.html" %}
