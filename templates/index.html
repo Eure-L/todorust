@@ -18,35 +18,28 @@
     ml-auto
     mr-auto
     py-8
+    font-bold
     " >Todo List</h1>
 
     <form 
-        class="
-        max-w-screen-md
-        max-h-screen
-        border-1
-        border-black
-        mt-4
-        ml-auto
-        mr-auto
-        py-8
-        px-2
-        bg-secondary
-        border-x-inherit
-        flex flex-col
-        text-center
-        "
+        class="add-task-form"
         hx-post="/tasks/add"
         hx-target="#pending-list"
         hx-swap="beforeend transition:true"
     >
-        <input type="text" name="name"/>
-        <input type="text" name="description"/>
-        <input 
-        class="
+        <input class="task-input" type="text" name="name"/>
+        <input class="
+        min-w-[100px]
+        max-w-lg
+        bg-tierciary
         text-white
+        justify-self-center
+        hover:bg-fourthiary hover:text-black
+        transition-colors
+        rounded-md
+
         "
-        type="submit" value="Add Task"/>
+        type="submit" value="Add"/>
 
     </form>
     {% include "tasks.html" %}

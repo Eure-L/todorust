@@ -5,6 +5,10 @@ module.exports = {
   darkMode: 'media', // or 'class'
   theme: {
     extend: {
+      spacing: {
+        '5px': '5px',
+        '100px': '100px',
+      },
       colors: {
         primary: "#6C0345",
         secondary: "#DC6B19",

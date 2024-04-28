@@ -1,53 +1,33 @@
 <div id="todolist"
-    class="
-    justify-center
-    flex flex-row
-    max-w-screen-xl
-    ml-auto
-    mr-auto
+     class="
+    task-dashboard
     "
 >
-    <div class="justify-start flex flex-row justify-normal">
-        <table
-        class="
+        <ul
+                id="pending-list"
+                class="task-list         
         "
-        ><caption>Pending Tasks</caption>
-            <thead>
-            <tr>
-                <th></th>
-                <th colspan="100"></th>
-            </tr>
-            </thead>
-            <tbody id="pending-list">
-
+        >
+            <h2 class="text-center">Pending</h2>
             {% for task in tasks %}
             {% if task.status == TaskStatus::Pending %}
             {% include "task.html" %}
             {% endif %}
             {% endfor %}
 
-            </tbody>
-        </table>
 
-        <table
-        class="
-        "
-        ><caption>Completed Tasks</caption>
-            <thead>
-            <tr>
-                <th></th>
-                <th colspan="100"></th>
-            </tr>
-            </thead>
-            <tbody id="completed-list">
+        </ul>
 
+        <ul
+                id="completed-list"
+                class="task-list      "
+        >
+            <h2 class="text-center">Completed</h2>
             {% for task in tasks %}
             {% if task.status == TaskStatus::Completed %}
             {% include "task.html" %}
             {% endif %}
             {% endfor %}
 
-            </tbody>
-        </table>
-    </div>
+        </ul>
 </div>

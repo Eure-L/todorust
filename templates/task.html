@@ -1,15 +1,14 @@
 
-<tr class="
-    task
+<li class="
+    task-item
     " >
-    <td>{{ task.name }}</td>
-    <td>{{ task.description }}</td>
-    <td>
+    {{ task.name }}
+
         {% include "buttons/delete-task_btn.html" %}
         {% if task.status == TaskStatus::Pending %}
         {% include "buttons/complete-task_btn.html" %}
         {% else if task.status == TaskStatus::Completed %}
         {% include "buttons/pend-task_btn.html" %}
         {% endif %}
-    </td>
-</tr>
+
+</li>

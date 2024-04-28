@@ -56,5 +56,10 @@ struct TaskStatusForm {
 #[derive(serde::Deserialize, Debug)]
 struct NewTaskForm {
     name: String,
+    #[serde(default = "default_description")]
     description: String,
+}
+
+fn default_description() -> String {
+    String::from("")
 }
