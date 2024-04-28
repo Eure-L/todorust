@@ -10,35 +10,13 @@
 
 
             {% if task.status == TaskStatus::Pending %}
-            {% let targetList = "#completed-list" -%}
-            {% let targetStatus = "Completed" -%}
-            {% let action = "Complete" %}
-
-            <input
-                    hx-put="/tasks/status"
-                    hx-target="{{targetList}}"
-                    hx-swap="beforeend"
-                    hx-vals={"id":"{{ task.id }}","status":"{{targetStatus}}"}
-            hx-on::after-request="document.getElementById('{{task.status}}-{{ task.id }}').remove();"
-            hx-on::before-request="closeModal()"
-            type="button" value="{{action}}">
+            {% include "buttons/complete-task_btn.html" %}
 
             {% else if task.status == TaskStatus::Completed %}
-            {% let targetList = "#pending-list" -%}
-            {% let targetStatus = "Pending" -%}
-            {% let action = "Pend" %}
-
-            <input
-                    hx-put="/tasks/status"
-                    hx-target="{{targetList}}"
-                    hx-swap="beforeend"
-                    hx-vals={"id":"{{ task.id }}","status":"{{targetStatus}}"}
-            hx-on::after-request="document.getElementById('{{task.status}}-{{ task.id }}').remove();"
-            hx-on::before-request="closeModal()"
-            type="button" value="{{action}}">
-
+            {% include "buttons/pend-task_btn.html" %}
             {% endif %}
 
+            {% include "buttons/delete-task_btn.html" %}
 
             <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
         </div>

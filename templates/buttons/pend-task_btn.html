@@ -3,6 +3,6 @@
         hx-target="#pending-list"
         hx-swap="beforeend"
         hx-vals={"id":"{{ task.id }}","status":"Pending"}
-        hx-on::after-request="this.closest('li').remove();"
-        type="button" value="⏰"
->
+        hx-on::after-request="document.getElementById('{{task.status}}-{{ task.id }}').remove();"
+        hx-on::before-request="closeModal()"
+        type="button" value="Mark as pending">
