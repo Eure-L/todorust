@@ -1,9 +1,8 @@
 <input
         hx-delete="/tasks/delete"
-        hx-target="closest .task-item"
+        hx-target="closest #task-item"
         hx-swap="delete"
         hx-vals={"id":"{{ task.id }}"}
         hx-on::after-request="this.closest('li').remove();"
         type="button" value="☢"
-
 >

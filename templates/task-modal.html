@@ -1,0 +1,54 @@
+<div id="modal" class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">{{ task.name }}</h5>
+        </div>
+        <div class="modal-body">
+            <p>{{ task.description }}</p>
+        </div>
+        <div class="modal-footer">
+
+
+            {% if task.status == TaskStatus::Pending %}
+            {% let targetList = "#completed-list" -%}
+            {% let targetStatus = "Completed" -%}
+            {% let action = "Complete" %}
+
+            <input
+                    hx-put="/tasks/status"
+                    hx-target="{{targetList}}"
+                    hx-swap="beforeend"
+                    hx-vals={"id":"{{ task.id }}","status":"{{targetStatus}}"}
+            hx-on::after-request="document.getElementById('{{task.status}}-{{ task.id }}').remove();"
+            hx-on::before-request="closeModal()"
+            type="button" value="{{action}}">
+
+            {% else if task.status == TaskStatus::Completed %}
+            {% let targetList = "#pending-list" -%}
+            {% let targetStatus = "Pending" -%}
+            {% let action = "Pend" %}
+
+            <input
+                    hx-put="/tasks/status"
+                    hx-target="{{targetList}}"
+                    hx-swap="beforeend"
+                    hx-vals={"id":"{{ task.id }}","status":"{{targetStatus}}"}
+            hx-on::after-request="document.getElementById('{{task.status}}-{{ task.id }}').remove();"
+            hx-on::before-request="closeModal()"
+            type="button" value="{{action}}">
+
+            {% endif %}
+
+
+            <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function closeModal() {
+        const modal = document.getElementById('modal');
+        modal.classList.add('closing');
+        modal.remove();
+    }
+</script>

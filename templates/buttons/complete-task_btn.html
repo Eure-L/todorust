@@ -3,6 +3,6 @@
         hx-target="#completed-list"
         hx-swap="beforeend"
         hx-vals={"id":"{{ task.id }}","status":"Completed"}
-        hx-on::after-request="this.closest('li').remove();"
+        hx-on::after-request="document.getElementById('{{task.status}}-{{ task.id }}').remove();"
         type="button" value="✅"
 >

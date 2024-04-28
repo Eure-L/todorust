@@ -1,5 +1,5 @@
 use crate::task::TaskStatus;
-use crate::{IndexTemplate, NewTaskForm, Task, TaskIdForm, TaskStatusForm, TaskTemplate};
+use crate::{IndexTemplate, NewTaskForm, Task, TaskIdForm, TaskModalTemplate, TaskStatusForm, TaskTemplate};
 use askama::Template;
 use axum::http::StatusCode;
 use axum::response::{Html, IntoResponse};
@@ -78,9 +78,31 @@ pub async fn set_task_status_handle(Form(task): Form<TaskStatusForm>) -> impl In
             (StatusCode::NOT_FOUND, "Task not found").into_response()
         }
         Some(a) => {
-            a.status = task.status.clone();
-            info!("Task status changed: {:?}", a);
-            let template = TaskTemplate { task: &a };
+
+            if task.status == a.status {
+                (StatusCode::CONFLICT, "Task already of this status").into_response()
+            }
+            else {
+                a.status = task.status.clone();
+                info!("Task status changed: {:?}", a);
+                let template = TaskTemplate { task: &a };
+                Html(template.render().unwrap()).into_response()
+            }
+        }
+    }
+}
+
+pub async fn get_task_info(Form(task): Form<TaskIdForm>) -> impl IntoResponse {
+    trace!("get_task_info {:?}", task);
+
+    match TASKS.lock().unwrap().get_mut(&task.id) {
+        None => {
+            warn!("No task found: {:?}", task.id);
+            (StatusCode::NOT_FOUND, "Task not found").into_response()
+        }
+        Some(a) => {
+            info!("Task info: {:?}", a);
+            let template = TaskModalTemplate { task: &a };
             Html(template.render().unwrap()).into_response()
         }
     }

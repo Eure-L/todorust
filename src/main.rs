@@ -26,6 +26,12 @@ struct TaskTemplate<'a> {
     task: &'a Task,
 }
 
+#[derive(Template)]
+#[template(path = "task-modal.html", ext = "html")]
+struct TaskModalTemplate<'a> {
+    task: &'a Task,
+}
+
 #[tokio::main]
 async fn main() {
     env_logger::init();
