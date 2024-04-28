@@ -1,5 +1,5 @@
 use crate::task::TaskStatus;
-use crate::{IndexTemplate, NewTaskForm, Task, TaskIdForm, TaskModalTemplate, TaskStatusForm, TaskTemplate};
+use crate::{IndexTemplate, NewTaskForm, Task, TaskDescriptionForm, TaskIdForm, TaskModalTemplate, TaskStatusForm, TaskTemplate};
 use askama::Template;
 use axum::http::StatusCode;
 use axum::response::{Html, IntoResponse};
@@ -25,6 +25,12 @@ pub async fn index() -> impl IntoResponse {
 
 pub async fn add_task_handle(Form(input): Form<NewTaskForm>) -> impl IntoResponse {
     trace!("add_task {:?}", input);
+
+
+    if input.name =="".to_string(){
+        warn!("Task submited with no name");
+        return (StatusCode::FORBIDDEN, "Task must have a name").into_response();
+    }
 
     // Builds the new task with User's provided info
     // completing it with server assigned uuid
@@ -92,7 +98,7 @@ pub async fn set_task_status_handle(Form(task): Form<TaskStatusForm>) -> impl In
     }
 }
 
-pub async fn get_task_info(Form(task): Form<TaskIdForm>) -> impl IntoResponse {
+pub async fn get_task_info_handle(Form(task): Form<TaskIdForm>) -> impl IntoResponse {
     trace!("get_task_info {:?}", task);
 
     match TASKS.lock().unwrap().get_mut(&task.id) {
@@ -107,6 +113,27 @@ pub async fn get_task_info(Form(task): Form<TaskIdForm>) -> impl IntoResponse {
         }
     }
 }
+
+pub async fn set_task_description_handle(Form(task): Form<TaskDescriptionForm>) -> impl IntoResponse {
+    trace!("set_task_description {:?}", task);
+
+    for (_, task) in TASKS.lock().unwrap().iter() {
+        debug!("{:?}", task)
+    }
+    match TASKS.lock().unwrap().get_mut(&task.id) {
+        None => {
+            warn!("No task found: {:?}", task.id);
+            (StatusCode::NOT_FOUND, "Task not found").into_response()
+        }
+        Some(a) => {
+            a.description = task.description.clone();
+            info!("Task description changed: {:?}", a);
+            StatusCode::OK.into_response()
+        }
+    }
+}
+
+
 
 pub fn get_tasks_by_status(
     tasks_mutex: &Mutex<HashMap<uid_t, Task>>,

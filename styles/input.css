@@ -8,12 +8,20 @@
     }
 }
 
+html, body {
+    @apply h-full
+    bg-fourthiary
+}
+
 .task-item {
-    @apply my-4 hover:bg-white font-bold;
+    @apply hover:bg-white font-bold;
 }
 
 .task-list {
     @apply mx-0
+    divide-y
+    text-center
+    items-center
 }
 
 .task-dashboard {
@@ -37,7 +45,7 @@
         px-8
         bg-secondary
         flex flex-col
-        grid
+        items-center
         rounded-xl
         border-2
         border-tierciary
@@ -47,11 +55,43 @@
 
 .task-input {
     @apply  mb-2
+    max-w-xs
+    grow w-14
+    w-auto
     rounded
     font-medium
-    text-gray-900
+    text-gray-100
     dark:text-white
+    text-center
+    bg-inherit
+    border-b-2
+
+    }
+
+.modal-content{
+    @apply divide-y
+    border-secondary
 }
+
+
+.modal-title{
+    @apply divide-y
+    text-center
+    font-bold
+    
+    border-secondary
+}
+
+
+.modal-footer{
+    @apply 
+    items-center
+    flex row-auto
+    justify-evenly
+    border-secondary
+}
+
+
 
 /***** MODAL DIALOG ****/
 #modal {

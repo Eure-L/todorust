@@ -1,11 +1,30 @@
-<div id="modal" class="modal-dialog modal-dialog-centered">
+<div class="modal" id="modal" class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">{{ task.name }}</h5>
         </div>
-        <div class="modal-body">
-            <p>{{ task.description }}</p>
+        <form
+                hx-put="/task/description"
+                hx-vals={"id":"{{ task.id }}"}
+                hx-on::after-request="closeModal()"
+        class="modal-body flex-col text-center">
+
+
+        <label for="9" class="inline-block w-full text-sm font-medium
+                 text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Description</label>
+        <div class="relative flex items-center">
+                    <textarea name="description" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                              placeholder="{{ task.description }}"></textarea>
         </div>
+
+        <button
+                type="submit" class="
+              my-2 inline-flex items-center px-5 py-2.5 
+              text-sm font-medium text-center text-white bg-blue-700 
+              rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+            Modify
+        </button>
+        </form>
         <div class="modal-footer">
 
 

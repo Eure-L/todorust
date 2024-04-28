@@ -51,6 +51,14 @@ async fn main() {
 #[derive(serde::Deserialize, Debug)]
 struct TaskIdForm {
     id: uid_t,
+
+}
+
+#[derive(serde::Deserialize, Debug)]
+struct TaskDescriptionForm {
+    id: uid_t,
+    description: String,
+
 }
 
 #[derive(serde::Deserialize, Debug)]
@@ -61,11 +69,15 @@ struct TaskStatusForm {
 
 #[derive(serde::Deserialize, Debug)]
 struct NewTaskForm {
+    #[serde(default = "default_name")]
     name: String,
     #[serde(default = "default_description")]
     description: String,
 }
 
+fn default_name() -> String {
+    String::from("<Task>")
+}
 fn default_description() -> String {
-    String::from("")
+    String::from("<Task Description>")
 }

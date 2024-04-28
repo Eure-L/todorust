@@ -10,10 +10,10 @@ module.exports = {
         '100px': '100px',
       },
       colors: {
-        primary: "#6C0345",
-        secondary: "#DC6B19",
-        tierciary: "#F7C566",
-        fourthiary: "#FFF8DC"
+        primary: "#153448",
+        secondary: "#3C5B6F",
+        tierciary: "#948979",
+        fourthiary: "#DFD0B8"
       }
 
     },
