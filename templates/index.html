@@ -26,6 +26,7 @@
         hx-post="/tasks/add"
         hx-target="#pending-list"
         hx-swap="beforeend transition:true"
+        hx-on::after-request="clearTaskInput()"
     >
         <input class="task-input" type="text" name="name" placeholder="Task to add"/>
         <input class="
@@ -39,11 +40,22 @@
         rounded-md
 
         "
-        type="submit" value="Add"/>
+        type="submit" value="Add" />
 
     </form>
     {% include "tasks.html" %}
 </div>
+
+<script>
+
+    function clearTaskInput() {
+        const taskInput = document.querySelector('.task-input');
+        taskInput.value = '';
+    }
+
+</script>
+
+
 
 
 
